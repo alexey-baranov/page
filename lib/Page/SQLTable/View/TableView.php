@@ -208,10 +208,17 @@ class TableView extends \Page\View\HtmlElementView {
                     $arr = array();
                     $allPageNumberClassName = "all" == $model->getSafePageNumber() ? "currentPageNumber" : "pageNumber";
                     $arr[] = "<span class='{$allPageNumberClassName}'><a href='{$requestData->wParam(array($this->getFullIo() . '_p' => "all"))}'>все</a></span>";
+                    if ($start>1){
+                        $arr[] = "<span class='pageNumber'><a href='{$requestData->wParam(array($this->getFullIo() . '_p' => 1))}'>1</a></span>";
+                    }
                     for ($i = $start; $i <= $end; $i++) {
                         $eachPageNumberClassName = (string) $i == $model->getSafePageNumber() ? "currentPageNumber" : "pageNumber";
                         $arr[] = "<span class='{$eachPageNumberClassName}'><a href='{$requestData->wParam(array($this->getFullIo() . '_p' => $i))}'>{$i}</a></span>";
                     }
+                    if ($end< $model->getPageCount()){
+                        $arr[] = "<span class='pageNumber'><a href='{$requestData->wParam(array($this->getFullIo() . '_p' => $model->getPageCount()))}'>{$model->getPageCount()}</a></span>";
+                    }
+
                     echo implode(' | ', $arr);
                 }
             }
@@ -223,7 +230,7 @@ class TableView extends \Page\View\HtmlElementView {
             <table {$this->getAttributesHtml()}>";
             if (!$this->_isMetadataHidden) {
                 echo "
-            <thead class='ui-state-default'>
+            <thead class='ui-state-default2 ui-widget-content2''>
             <tr>";
                 //выбрать все
                 if ($model->rowSelectMode == \Page\SQLTable\Table::ROW_SELECT_MODE_MULTIPLE) {
@@ -258,7 +265,7 @@ class TableView extends \Page\View\HtmlElementView {
 		</thead>";
             }
             echo "
-		<tbody class='ui-widget-content'>";
+		<tbody class='ui-widget-content2'>";
             
             //строки страницы
             foreach ($model->getPageRows() as $eachRow) {

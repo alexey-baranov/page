@@ -23,7 +23,7 @@ class StringFilter {
 
     static function filterLink($this, $input) {
         $result = preg_replace('/\b(\w|\d)[\w\d\.\-]*@[\w\d\.\-]+\.\w{2,3}\b/', '<a class="external" href="mailto:\\0">\\0</a>', $input);
-        $result = preg_replace('/\b(\w+\:\/\/|www\.)[\w\d\.\%\:\-\/\?\&\=\;]*[\w\d\%\/\?\&\=\;]+\b/', '<a class="external" target="_blank" href="\\0">\\0</a>', $result);
+        $result = preg_replace('/\b(\w+\:\/\/|www\.)[А-я\w\d\.\%\:\-\/\?\&\=\;]*[А-я\w\d\%\/\?\&\=\;]+\b/u', '<a class="external" target="_blank" href="\\0">\\0</a>', $result);
         // $result = preg_replace('/\w+\:\/\/[\w\d\.\%\:\-\/\?\&\=\;]*[\w\d\%\/\?\&\=\;]+/', '<span class="externalLink" onclick="window.open(\'\\0\'); ">\\0</span>', $result);
 //        $result = preg_replace('/([^\w]+[^\:][^\/]+)(www\.[\w\d\.\%\:\-\/\?\&\=\;]*[\w\d\%\/\?\&\=\;]+)/', '\\1<a class="external" target="_blank" href="http://\\2">\\2</a>', $result);
         return $result;
