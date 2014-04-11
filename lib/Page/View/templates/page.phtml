@@ -1,0 +1,88 @@
+<?php
+/* @var $model \Page\Page, $this \Page\View\PageView */
+$this;
+$model = $this->_model;
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <meta http-equiv="Content-Language" content="ru_RU" />
+<!--        <meta http-equiv="X-UA-Compatible" content="chrome=1">-->
+
+        <?php foreach($this->getCss() as $eachCss): ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo $eachCss; ?>">
+        <?php endforeach; ?>
+        <?php foreach($this->getScripts() as $eachScript): ?>
+            <script src='<?php echo $eachScript ?>'></script>
+        <?php endforeach; ?>
+        <title><?php echo $this->getModel()->getTitle(); ?></title>
+    </head>
+    <body>
+        <?php
+        /* @var $this \Page\View\PageView */
+        $this;
+        /* @var $model \Page\Page */
+        $model = $this->_model;
+
+        //<form>
+        $enctype = preg_match('/post/i', $this->getMethod()) ? 'multipart/form-data' : 'application/x-www-form-urlencoded';
+        echo "
+        <form name= '{$this->getIo()}'
+            method= '{$this->getMethod()}'
+            action= '{$_SERVER['REQUEST_URI']}'
+            enctype= '{$enctype}'>";
+
+        //default action
+        if ($this->getDefaultActionIo()){
+            echo "<div style='position: absolute; top: -150px; left: 500px;'><input type='submit' name='{$this->getIo()}_{$this->getDefaultActionIo()}' value='{$this->escapeHTMLString($this->getDefaultActionIo())}'></div>";
+        }
+        
+        //submit input emulator
+        $this->_submitInputEmulatorView->show();
+
+        //default focus
+        if ($this->getDefaultFocusIo()) {
+            echo $this->toScriptTag("
+                $(document).ready(
+                    function(){
+                        document.getElementById('{$this->getFullIo()}_{$this->getDefaultFocusIo()}').focus();
+                    }
+                );
+                ");
+        }
+
+        //persist state
+        $this->showRequestData();
+        
+        //form
+        $this->showForm(); //а внутри где-то должна быть вывод ошибки
+
+        //auto reload
+        if ($model->getAutoReloadDelay()) {
+            if ($this->getMethod() == \Page\View\PageView::METHOD_GET) {
+                echo $this->toScriptTag("
+                        setInterval(
+                            function (){
+                                window.location.reload(true)
+                            },
+                            {$model->getAutoReloadDelay()}
+                        );
+                    ");
+            } else {
+                echo $this->toScriptTag("
+                        setInterval(
+                            function {
+                                document.forms[0].submit();
+                            },
+                            {$model->getAutoReloadDelay()}
+                        );
+                    ");
+            }
+        }
+        
+        echo "
+        </form>";
+        ?>
+    </body>
+</html>

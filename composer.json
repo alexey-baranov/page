@@ -1,0 +1,32 @@
+{
+    "name": "alexey_baranov/page",
+    "description": "html elements mvc framework",
+    "authors": [
+        {
+            "name": "Alexey Baranov",
+            "email": "alexey_baranov@inbox.ru"
+        }
+    ],
+    "repositories": [
+        {
+           "type": "vcs",
+           "url": "git@github.com:alexey-baranov/phpexcelex.git"
+        }
+    ],
+    "require": {
+        "apache/log4php": "2.3.*",
+        "alexey_baranov/phpexcelex": "1.0.*",
+        "doctrine/common": "*"
+    },
+    "require-dev": {
+        "PHPUnit/PHPUnit": "4.0.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Page": "lib/"
+        }
+    },
+    "include-path": [
+        "lib/"
+    ]
+}
