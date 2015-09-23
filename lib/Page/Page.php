@@ -1,6 +1,7 @@
 <?php
 
 namespace Page {
+    use Zend\Session\Container;
 
     /**
      * Голая страница
@@ -24,12 +25,12 @@ namespace Page {
         
         /**
          *
-         * @var \Zend_Session_Namespace
+         * @var Container
          */
-        protected $_sessionStorage;
+        protected $_sessionContainer;
 
         function __construct() {
-            //$this->_sessionStorage = new \Zend_Session_Namespace("Page", false);
+//            $this->_sessionContainer = new Container(get_class($this));
         }
         
         public function getParent() {
