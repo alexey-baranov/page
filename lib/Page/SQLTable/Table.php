@@ -203,7 +203,7 @@ class Table {
         return $this->_connection;
     }
 
-    public function setConnection(\PDO $value) {
+    public function setConnection(/*\PDO*/ $value) {
         $this->_connection = $value;
     }
 
@@ -278,6 +278,7 @@ class Table {
                     break;
                 case 'float':
                 case 'float8':
+                case 'numeric':
                     $column->type = self::TYPE_FLOAT;
                     break;
                 case 'money':
